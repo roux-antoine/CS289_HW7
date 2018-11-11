@@ -150,9 +150,6 @@ for i in range (num_iter):
     # forward + backward + optimize
     outputs = net(inputs)
     loss = loss_function(outputs, labels)
-    # print(outputs.shape)
-    # print(type(outputs))
-    # loss = loss_function(outputs, torch.zeros(outputs.shape), labels.float() )
     loss.backward()
     optimizer.step()
 
