@@ -82,7 +82,7 @@ def set_parameters(d, w, b, alpha, beta, net):
             assert False
 
 # Initializing the data generation process
-d = 5
+d = 10
 k = 10 * d
 data = DataGen(d)
 
@@ -126,7 +126,11 @@ def myLoss(outputs, labels):
     # TO IMPLEMENT Part (b)
     # should return 1/b * sum_{i=1}^b loss(f_p(x_i),y_i)
 
-    pass
+    # return (1/outputs.shape[0]) * np.sum(max(0, 1-np.matmul(outputs, labels)))
+    return torch.mean(F.relu(1 - outputs.float()*labels.float()))
+
+
+    # pass
 
 
 loss_function = myLoss
@@ -146,6 +150,9 @@ for i in range (num_iter):
     # forward + backward + optimize
     outputs = net(inputs)
     loss = loss_function(outputs, labels)
+    # print(outputs.shape)
+    # print(type(outputs))
+    # loss = loss_function(outputs, torch.zeros(outputs.shape), labels.float() )
     loss.backward()
     optimizer.step()
 
@@ -158,3 +165,9 @@ print('Finished Training')
 
 # Plotting the training curve
 # TO IMPLEMENT Part (b)
+plt.plot(loss_over_iteration)
+plt.title('(d= ' + str(d) + ')')
+plt.xlabel('iteration number')
+plt.ylabel('loss')
+plt.grid()
+plt.show()
